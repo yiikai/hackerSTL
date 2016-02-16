@@ -1,3 +1,5 @@
+#ifndef COMMONALLOC_H
+#define COMMONALLOC_H
 #include <new>
 template<typename T>
 void construct(void* p , T n)
@@ -75,3 +77,4 @@ struct iterator_traits < T* >
 {
 	typedef T value_type;
 };
+#endif

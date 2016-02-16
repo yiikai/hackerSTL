@@ -3,6 +3,7 @@
 #define MEMORY_HACKER_H
 
 #include <stdlib.h>
+#include <string.h>
 #define MAXCHUNKSIZE 128
 #define FREELISTNUM 16
 
