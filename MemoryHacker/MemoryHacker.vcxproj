@@ -80,10 +80,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonalloc.h" />
+    <ClInclude Include="cow.h" />
     <ClInclude Include="hackerHeap.h" />
     <ClInclude Include="hackerList.h" />
     <ClInclude Include="hackerPriorityQueue.h" />
     <ClInclude Include="hackerRBTree.h" />
+    <ClInclude Include="hackerString.h" />
     <ClInclude Include="hackerVector.h" />
     <ClInclude Include="memoryhacker.h" />
     <ClInclude Include="stdafx.h" />

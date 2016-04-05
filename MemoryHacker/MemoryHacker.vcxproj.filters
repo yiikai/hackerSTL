@@ -45,6 +45,12 @@
     <ClInclude Include="hackerRBTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hackerString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
