@@ -84,7 +84,7 @@ unsigned long hackerHashTable<var, hashfunc, _ExtractKey,Alloc>::GetTableSize(un
 template <typename var, typename hashfunc, typename _ExtractKey, typename Alloc = MemHacker>
 void hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::insert_unequle(value_type obj)
 {
-	tableResize(++m_currenttablessize);
+	tableResize(buccketnum++);
 	//将值插入table表中
 	insert_equal_noresize(obj);
 }
@@ -115,8 +115,7 @@ void hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::tableResize(unsigned lo
 	unsigned long tablesize = 0;
 	if (m_currenttablessize == 0)
 	{
-		buccketnum = 1;   //如果这个时候没有创建table则大小用第一个质数的大小
-		tablesize = __stl_prime_list[buccketnum];
+		tablesize = __stl_prime_list[buccketnum-1];
 	}
 	else
 	{
@@ -133,8 +132,17 @@ void hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::tableResize(unsigned lo
 	if (m_currenttablessize != tablesize)
 	{
 		//重新调整vector的大小
-		m_table.resize(tablesize);
-		m_currenttablessize = tablesize;
+		if (m_currenttablessize == 0)
+		{
+			//安排vector大小
+			m_table.assign(tablesize, NULL);
+		}
+		else
+		{
+			m_table.resize(tablesize);
+			m_currenttablessize = tablesize;
+		}
+		
 	}
 }
 #endif

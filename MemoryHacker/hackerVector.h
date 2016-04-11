@@ -49,11 +49,11 @@ public:
 		_mFinsih = _mStart;
 		_mStorageEnd = _mStart + num;
 	}
-	
+
 	hackervector(iterator first, iterator last)
 	{
 		size_t n = distance(first, last);
-		hackervector(n*2);
+		hackervector(n * 2);
 		while (first != last)
 		{
 			push_back(*first);
@@ -72,6 +72,20 @@ public:
 		for (; itr != vec.end(); itr++)
 		{
 			push_back(*itr);
+		}
+	}
+
+
+	void assign(int num, T value)
+	{
+		T* p = (T*)memalloc::HackAlloc(sizeof(T)*num);
+		_mStart = p;
+		_mFinsih = p;
+		_mStorageEnd = _mStart + num;
+		while (p != _mStorageEnd)
+		{
+			*p = value;
+			p++;
 		}
 	}
 
@@ -114,7 +128,7 @@ public:
 			{
 				resize = 2 * sizeof(T);
 			}
-			
+
 			T* p = (T*)memalloc::HackAlloc(resize);
 			memset((void*)p, 0, resize);
 			if (_mStart)
@@ -196,7 +210,7 @@ public:
 			iterator tmpStart = p;
 			iterator tmpFinsih = p;
 			iterator tmpStorageEnd = p + sizeof(T)*newsize;
-			memcpy(tmpStart,_mStart,size());
+			memcpy(tmpStart, _mStart, size());
 			tmpFinsih = tmpStart + size();
 			memalloc::HackDealloc(_mStart, storage());
 			_mStart = tmpStart;
