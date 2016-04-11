@@ -8,16 +8,21 @@
 #include "hackerPriorityQueue.h"
 #include "hackerRBTree.h"
 #include "hackerString.h"
-
-
+#include "hackerhashtable.h"
+#include "hashfun.h"
 using namespace std;
+class getint
+{
+public:
+	int operator()(int x)
+	{
+		return x;
+	}
+};
 int _tmain(int argc, _TCHAR* argv[])
 {
-	hackerString name1 = "nimabi";
-	hackerString name2 = name1;
-	hackerString name3 = name1;
-	hackerString name4 = "wahaha";
-	name3 = name4;
+	hackerHashTable<int, hackhash<int>, getint> hasher;
+	hasher.insert_unequle(1);
 	return 0;
 }
 

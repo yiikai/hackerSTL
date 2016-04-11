@@ -28,7 +28,11 @@ cow::cow() :m_useref(NULL)
 
 cow::~cow()
 {
-
+	if (m_useref->useCount == 0)
+	{
+		delete m_useref;
+		m_useref = NULL;
+	}
 }
 
 void cow::delRef() 

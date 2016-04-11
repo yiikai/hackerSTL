@@ -15,13 +15,7 @@ public:
 private:
 	void delRef();
 private:
-	/*struct str
-	{
-	str() :size(0),pStr(NULL),useCount(0){}
-	size_t size;
-	char* pStr;
-	size_t useCount;
-	};*/
+
 	size_t pSize;
 	char* pStr;
 };

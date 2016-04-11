@@ -51,6 +51,12 @@
     <ClInclude Include="cow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hackerhashtable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hashfun.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

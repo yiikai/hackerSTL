@@ -21,6 +21,7 @@ class base_vector
 public:
 	typedef T* iterator;
 	typedef const T* const_iterator;
+	typedef T& reference;
 	base_vector() :_mStart(nullptr), _mFinsih(nullptr), _mStorageEnd(nullptr){}
 	~base_vector(){}
 protected:
@@ -92,7 +93,10 @@ public:
 		return _mFinsih;
 	}
 
-	
+	reference operator[](int num)
+	{
+		return *(begin() + num);
+	}
 
 	void push_back(const T& data){
 		if (_mFinsih != _mStorageEnd)
@@ -177,6 +181,33 @@ public:
 			return true;
 		else
 			return false;
+	}
+
+	unsigned long storage()
+	{
+		return _mStorageEnd - _mStart;
+	}
+
+	bool resize(int newsize)
+	{
+		if (newsize > size())
+		{
+			T* p = (T*)memalloc::HackAlloc(sizeof(T)*newsize);
+			iterator tmpStart = p;
+			iterator tmpFinsih = p;
+			iterator tmpStorageEnd = p + sizeof(T)*newsize;
+			memcpy(tmpStart,_mStart,size());
+			tmpFinsih = tmpStart + size();
+			memalloc::HackDealloc(_mStart, storage());
+			_mStart = tmpStart;
+			_mFinsih = tmpFinsih;
+			_mStorageEnd = tmpStorageEnd;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	~hackervector(){}
