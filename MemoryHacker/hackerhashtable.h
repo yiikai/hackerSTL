@@ -32,7 +32,7 @@ public:
 };
 
 
-template <typename var, typename hashfunc, typename _ExtractKey, typename Alloc = simpleHashNodeAlloc<var>>
+template <typename var, typename hashfunc, typename _ExtractKey,typename Alloc = simpleHashNodeAlloc<var>>
 class hackerHashTable
 {
 	
@@ -52,8 +52,10 @@ public:
 	~hackerHashTable(){}
 
 	void insert_unequle(value_type obj);
+	void insert_equle(value_type obj);
 private:
 	void insert_equal_noresize(value_type& obj);
+	void insert_unequal_noresize(value_type& obj);
 private:
 	unsigned long GetTableSize(unsigned long num);
 	void tableResize(unsigned long num);
@@ -66,7 +68,7 @@ private:
 };
 
 template <typename var, typename hashfunc, typename _ExtractKey, typename Alloc = MemHacker>
-unsigned long hackerHashTable<var, hashfunc, _ExtractKey,Alloc>::GetTableSize(unsigned long num)
+unsigned long hackerHashTable<var, hashfunc, _ExtractKey , Alloc>::GetTableSize(unsigned long num)
 {
 	int i = 0;
 	for (; i < __stl_num_primes && __stl_prime_list[i] < num; i++)
@@ -81,32 +83,78 @@ unsigned long hackerHashTable<var, hashfunc, _ExtractKey,Alloc>::GetTableSize(un
 }
 
 
-template <typename var, typename hashfunc, typename _ExtractKey, typename Alloc = MemHacker>
+template <typename var, typename hashfunc, typename _ExtractKey,typename Alloc = MemHacker>
 void hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::insert_unequle(value_type obj)
 {
-	tableResize(buccketnum++);
+	tableResize(++buccketnum);
+	insert_unequal_noresize(obj);
+}
+template <typename var, typename hashfunc, typename _ExtractKey,typename Alloc = MemHacker>
+void hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::insert_equle(value_type obj)
+{
+	tableResize(++buccketnum);
 	//将值插入table表中
 	insert_equal_noresize(obj);
 }
 
 template <typename var, typename hashfunc, typename _ExtractKey, typename Alloc = MemHacker>
-void  hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::insert_equal_noresize(value_type& obj)
+void hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::insert_unequal_noresize(value_type& obj)
 {
 	size_t key = m_getkeyfunc(obj);
-	size_t hashvalue = m_hashfunc(key) % m_currenttablessize;
-	VAR_NODE* __first = m_table[hashvalue];
-	for (VAR_NODE* cur = __first; cur;cur->next)
+	size_t hashvalue = 0;
+	if (m_currenttablessize == 0)
 	{
-		if (m_getkeyfunc(cur->member) == key)
+		hashvalue = m_hashfunc(key) % 1;
+	}
+	else
+	{
+		hashvalue = m_hashfunc(key) % m_currenttablessize;
+	}
+	
+	VAR_NODE** cur = &(m_table[hashvalue]);
+	for (; *cur; (*cur)->next)
+	{
+		if (m_getkeyfunc((*cur)->member) == key)
 		{
 			cout << "the key is exist" << endl;
+			buccketnum--;
 			return;
 		}
 	}
 	VAR_NODE* _tmp = simple_hashNode_alloc::createhashnode();
 	_tmp->member = obj;
 	_tmp->next = NULL;
-	m_table[hashvalue] = _tmp;
+	if (!(*cur))
+		(*cur) = _tmp;
+	else
+		(*cur)->next = _tmp;
+}
+
+template <typename var, typename hashfunc, typename _ExtractKey, typename Alloc = MemHacker>
+void  hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::insert_equal_noresize(value_type& obj)
+{
+	size_t key = m_getkeyfunc(obj);
+	size_t hashvalue = 0;
+	if (m_currenttablessize == 0)
+	{
+		hashvalue = m_hashfunc(key) % 1;
+	}
+	else
+	{
+		hashvalue = m_hashfunc(key) % m_currenttablessize;
+	}
+	VAR_NODE** cur = &(m_table[hashvalue]);
+	for (; (*cur);(*cur)->next)
+	{
+		;
+	}
+	VAR_NODE* _tmp = simple_hashNode_alloc::createhashnode();
+	_tmp->member = obj;
+	_tmp->next = NULL;
+	if (!(*cur))
+		(*cur) = _tmp;
+	else
+		(*cur)->next = _tmp;
 }
 
 template <typename var, typename hashfunc, typename _ExtractKey, typename Alloc = MemHacker>
@@ -136,13 +184,14 @@ void hackerHashTable<var, hashfunc, _ExtractKey, Alloc>::tableResize(unsigned lo
 		{
 			//安排vector大小
 			m_table.assign(tablesize, NULL);
+			
 		}
 		else
 		{
 			m_table.resize(tablesize);
-			m_currenttablessize = tablesize;
+			
 		}
-		
+		m_currenttablessize = tablesize;
 	}
 }
 #endif

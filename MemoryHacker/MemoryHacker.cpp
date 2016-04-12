@@ -23,6 +23,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	hackerHashTable<int, hackhash<int>, getint> hasher;
 	hasher.insert_unequle(1);
+	hasher.insert_unequle(0);
 	return 0;
 }
 
