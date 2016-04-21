@@ -21,9 +21,10 @@ public:
 };
 int _tmain(int argc, _TCHAR* argv[])
 {
-	hackerHashTable<int, hackhash<int>, getint> hasher;
+	hackerHashTable<int, int ,hackhash<int>, getint> hasher;
 	hasher.insert_unequle(1);
-	hasher.insert_unequle(0);
+	hasher.insert_unequle(2);
+
 	return 0;
 }
 
